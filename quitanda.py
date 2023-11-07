@@ -17,6 +17,24 @@ def verifica_sessao():
     else:
         return False
     
+# -------------- ROTA DA PÁGINA LOGIN --------------
+@app.route("/login")
+def login():
+    return render_template("login.html")
+    
+# -------------------- ROTA PARA VERIFICAR O ACESSO AO ADMIN --------------------
+@app.route("/acesso", methods=['POST'])
+def acesso():
+    global usuario, senha
+    usuario_informado = request.form["usuario"]
+    senha_informada = request.form["senha"]
+
+    if usuario == usuario_informado and senha == senha_informada:
+        session["login"] = True
+        return redirect('/')
+    else:
+        return render_template("login.html",msg="O usuário e a sua senha estão INCORRETOS!!")
+    
 # ------------------------------ CONEXÃO COM O BANCO DE DADOS ------------------------------
 
 def conecta_database():
@@ -43,6 +61,7 @@ def index():
     conexao.close()
     title = "Home"
     return render_template("home.html", produtos=produtos, title=title)
+
 
 # ------------------------------ FINAL DO CODIGO - EXECUTANDO O SERVIDOR ------------------------------
 
