@@ -10,10 +10,20 @@ Este é um projeto integrador entre as disciplinas de Programação Web Front-En
 ## Tecnologias Utilizadas
 
 
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 - Git: Sistema de controle de versão para gerenciar o código do projeto.
+
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+
 - GitHub: Plataforma online para hospedar o repositório do projeto e facilitar a colaboração.
+
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
 - Flask: Framework web em Python para o desenvolvimento do lado do servidor.
+
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 - HTML e CSS (Bootstrap): Linguagens de marcação e estilização para criar o front-end do aplicativo.
+
+![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 - SQL (Banco de Dados): Utilizaremos um banco de dados SQL para armazenar e recuperar informações sobre os produtos. Isso inclui a criação de tabelas, inserção de dados e consulta de informações.
 
 
