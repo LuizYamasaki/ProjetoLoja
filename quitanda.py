@@ -17,12 +17,25 @@ def verifica_sessao():
     else:
         return False
     
-# -------------- ROTA DA PÁGINA LOGIN --------------
+# ------------------------------ ROTA DA PÁGINA LOGIN ------------------------------
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+# ------------------------------ ROTA DA PAGINA ADM ------------------------------
+@app.route ("/adm")
+def adm():
+    if verifica_sessao():
+        iniciar_db()
+        conexao = conecta_database()
+        produtos = conexao.execute( 'SELECT * FROM produtos ORDER BY id_prod DESC').fetchall()
+        conexao.close()
+        title = "Administração"
+        return render_template("adm.html" , produtos=produtos , title=title)
+    else:
+        return redirect("/login")
     
-# -------------------- ROTA PARA VERIFICAR O ACESSO AO ADMIN --------------------
+# ------------------------------ ROTA PARA VERIFICAR O ACESSO AO ADMIN ------------------------------
 @app.route("/acesso", methods=['POST'])
 def acesso():
     global usuario, senha
@@ -34,6 +47,14 @@ def acesso():
         return redirect('/')
     else:
         return render_template("login.html",msg="O usuário e a sua senha estão INCORRETOS!!")
+    
+# ------------------------------ CÓDIGO DO LOGOUT ------------------------------´
+@app.route("/logout")
+def logout():
+    global login
+    login = False
+    session.clear()
+    return redirect('/')
     
 # ------------------------------ CONEXÃO COM O BANCO DE DADOS ------------------------------
 
@@ -62,6 +83,34 @@ def index():
     title = "Home"
     return render_template("home.html", produtos=produtos, title=title)
 
+# ------------------------------ ROTA PARA ABRIR O FORMULARIO DE CADASTRO ------------------------------
+@app.route("/cadprodutos")
+def cadprodutos():
+    if verifica_sessao():
+        title = "Cadastro de produtos"
+        return render_template("cadastro.html",title=title)
+    else:
+        return redirect("/login")
+
+# ------------------------------ ROTA PARA RECEBER A POSTAGEM DO FORMULARIO ------------------------------
+@app.route("/cadastro",methods=["post"])
+def cadastro():
+	if verifica_sessao():
+		nome_prod=request.form['nome_prod']
+		desc_prod=request.form['desc_prod']
+		preco_prod=request.form['preco_prod']
+		img_prod=request.files['img_prod ']
+		id_foto=str(uuid.uuid4().hex)
+		filename=id_foto+nome_prod+'.png'
+		img_prod.save("static/img/produtos/"+filename )
+		conexao = conecta_database()
+		conexao.execute('INSERT INTO produtos (nome_prod, desc_prod, preco_prod,img_prod) VALUES (?, ?, ?, ?)', (nome_prod, desc_prod, preco_prod, filename))
+		conexao.commit()
+		conexao.close()
+		return redirect("/adm")
+	else:
+		return redirect("/login")
+	
 
 # ------------------------------ FINAL DO CODIGO - EXECUTANDO O SERVIDOR ------------------------------
 
